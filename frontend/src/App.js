@@ -7,6 +7,7 @@ import {
   Link,
 } from "react-router-dom";
 import Feature from "./Pages/Feature/Feature";
+import Analysis from "./Pages/Analysis/Analysis";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: "feature",
     element:<Feature/>,
+  },
+  {
+    path: "analysis",
+    element:<Analysis/>,
   },
 ]);
 

@@ -2,6 +2,7 @@ import React from 'react'
 import './Feature.css'
 import Navbar from '../../Components/Navbar/Navbar'
 import Footer from '../../Components/Footer/Footer'
+import { NavLink } from 'react-router-dom'
 
 function Feature() {
     return (
@@ -26,9 +27,11 @@ function Feature() {
                                 <span className="item-d">Gain insights into your mental well-being through our comprehensive analysis. Answer a set of thought-provoking questions and receive personalized results to better understand your mental state.</span>
                             </div>
                             <div className="feature-item-box-row-arrow">
-                                <span class="material-symbols-outlined">
-                                    double_arrow
-                                </span>
+                                <NavLink to='/analysis'>
+                                    <span class="material-symbols-outlined">
+                                        double_arrow
+                                    </span>
+                                </NavLink>
                             </div>
                         </div>
                         <div className="feature-box-right">
@@ -39,9 +42,11 @@ function Feature() {
                                 <span className="item-d">Explore a comprehensive collection of mental health resources at your fingertips. Discover articles, videos, guides, and more to support your journey towards mental well-being..</span>
                             </div>
                             <div className="feature-item-box-row-arrow">
-                                <span class="material-symbols-outlined">
-                                    double_arrow
-                                </span>
+                                <NavLink to='/analysis'>
+                                    <span class="material-symbols-outlined">
+                                        double_arrow
+                                    </span>
+                                </NavLink>
                             </div>
                         </div>
                     </div>
@@ -54,9 +59,11 @@ function Feature() {
                                 <span className="item-d">Easily find and book counselling centers or therapists near you. Take the first step towards seeking professional guidance and support for your mental well-being.</span>
                             </div>
                             <div className="feature-item-box-row-arrow">
-                                <span class="material-symbols-outlined">
-                                    double_arrow
-                                </span>
+                                <NavLink to='/analysis'>
+                                    <span class="material-symbols-outlined">
+                                        double_arrow
+                                    </span>
+                                </NavLink>
                             </div>
                         </div>
                         <div className="feature-box-right-b">
@@ -67,9 +74,11 @@ function Feature() {
                                 <span className="item-d">Track your mental health journey and witness your progress over time. Gain valuable insights into your personal growth and celebrate milestones along the way.</span>
                             </div>
                             <div className="feature-item-box-row-arrow">
-                                <span class="material-symbols-outlined">
-                                    double_arrow
-                                </span>
+                                <NavLink to='/analysis'>
+                                    <span class="material-symbols-outlined">
+                                        double_arrow
+                                    </span>
+                                </NavLink>
                             </div>
                         </div>
                     </div>

@@ -1,0 +1,27 @@
+.analysis{
+    background-color: rgb(0, 184, 184);
+    color: white;
+}
+
+.analysis-box{
+    padding: 30px 85px;
+}
+
+.analysis-title{
+    font-size: 25px;
+}
+
+.analysis-row{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.t{
+    margin-left: 20px;
+}
+
+.arrow{
+    cursor: pointer;
+    font-size: 35px;
+}
