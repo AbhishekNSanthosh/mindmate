@@ -1,0 +1,15 @@
+.home-container {
+    background-image: url('../../Assets/bg.svg');
+    height: 100vh;
+    width: 100%;
+    object-fit: fill;
+    background-repeat: no-repeat;
+    background-size: cover;
+    gap: 100px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* .home-item {
+
+} */

@@ -1,0 +1,46 @@
+.features {
+    padding: 60px 85px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.feature-title{
+    font-size: 28px;
+}
+
+.feature-row{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.feature-item-row{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+.feature-item{
+    flex:3;
+    border-radius: 15px;
+    padding: 30px;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    height: 150px;
+    box-shadow: 0px 2px 3px #b3b3b3;
+}
+
+.feature{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.feature-desc{
+    font-size: 17px;
+    font-weight: 300;
+}
