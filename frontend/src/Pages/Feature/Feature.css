@@ -1,0 +1,93 @@
+.feature-page{
+    background-color: #5895C1;
+    color: #fff;
+}
+
+.feature-container{
+    padding: 30px 85px;
+}
+
+.feature-box{
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    border-radius: 20px;
+    box-shadow: 0px 1px 1px 2px #d1d1d1;
+}
+
+.feature-box-row{
+    display: flex;
+    flex-direction: column;
+    gap: 20px
+}
+
+.good{
+    font-size: 25px;
+}
+
+.good-item{
+    font-size: 20px;
+}
+
+.feature-box-col{
+    display: flex;
+    gap: 30px;
+    color: rgb(73, 73, 73);
+    background-color: #5895C1;
+}
+
+.feature-box-left{
+    flex: 7;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 15px;
+    background-color: #fff;
+}
+
+.feature-box-right{
+    flex: 5;
+    border-radius: 15px;
+    display: flex;
+    padding: 30px;
+    flex-direction: column;
+    gap: 20px;
+    background-color: #fff;
+}
+
+.feature-box-left-b{
+    flex: 8;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 15px;
+    background-color: #fff;
+}
+
+.feature-box-right-b{
+    flex: 4;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 15px;
+    background-color: #fff;
+}
+
+.item-t{
+    font-size: 20px;
+}
+
+.item-d{
+    font-size: 17px;
+}
+
+.feature-item-box-row-arrow{
+    display: flex;
+    align-items: end;
+    justify-content: end;
+    bottom: 0;
+}

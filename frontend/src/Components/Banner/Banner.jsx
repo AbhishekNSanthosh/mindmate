@@ -1,5 +1,6 @@
 import React from 'react'
 import './Banner.css'
+import { NavLink } from 'react-router-dom'
 
 const Banner = () => {
     return (
@@ -24,7 +25,9 @@ const Banner = () => {
                 </span>
             </div>
             <div className="banner-title-box">
-                <button className="banner-button">Go to features</button>
+                <NavLink to='/feature'>
+                    <button className="banner-button">Go to features</button>
+                </NavLink>
             </div>
         </div>
     )
