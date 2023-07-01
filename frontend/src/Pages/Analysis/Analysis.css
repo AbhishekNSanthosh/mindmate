@@ -1,27 +1,87 @@
-.analysis{
+.analysis {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.analysis_wrapper {
     background-color: rgb(0, 184, 184);
     color: white;
 }
 
-.analysis-box{
+.analysis_box {
     padding: 30px 85px;
 }
 
-.analysis-title{
+.analysis_title {
+    font-size: 23px;
+}
+
+.que {
+    color: #000000;
+    background-color: #dadada;
+    height: 1px;
+    width: 100%;
+    margin: 10px 0;
+    border: none;
+}
+
+.question_row {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+}
+
+.analysis_que {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.analysis_que_box {
+    padding: 20px 85px;
+}
+
+.question {
+    font-size: 18px;
+}
+
+.agree {
+    cursor: pointer;
+    color: rgb(82, 255, 82);
+}
+
+.disagree {
+    color: rgb(255, 0, 0);
+    cursor: pointer;
+}
+
+.agree3 {
+    font-size: 45px;
+}
+
+.agree2 {
+    font-size: 35px;
+}
+
+.agree1 {
     font-size: 25px;
 }
 
-.analysis-row{
-    display: flex;
-    align-items: center;
-    justify-content: start;
-}
-
-.t{
-    margin-left: 20px;
-}
-
-.arrow{
+.agree0 {
+    font-size: 15px;
     cursor: pointer;
+}
+
+.disagree1 {
+    font-size: 25px;
+}
+
+.disagree2 {
     font-size: 35px;
+}
+
+.disagree3 {
+    font-size: 45px;
 }
