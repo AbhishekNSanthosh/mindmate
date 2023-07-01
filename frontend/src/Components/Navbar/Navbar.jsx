@@ -28,7 +28,7 @@ function Navbar() {
           <span className="nav-title">Hi, Abhiram</span>
         </div>
         <div className="nav-item">
-          <span class="material-symbols-outlined">
+          <span className="material-symbols-outlined">
             account_circle
           </span>
         </div>

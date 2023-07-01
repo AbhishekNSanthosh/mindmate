@@ -28,7 +28,7 @@ function Feature() {
                             </div>
                             <div className="feature-item-box-row-arrow">
                                 <NavLink to='/analysis'>
-                                    <span class="material-symbols-outlined">
+                                    <span className="material-symbols-outlined">
                                         double_arrow
                                     </span>
                                 </NavLink>
@@ -43,7 +43,7 @@ function Feature() {
                             </div>
                             <div className="feature-item-box-row-arrow">
                                 <NavLink to='/analysis'>
-                                    <span class="material-symbols-outlined">
+                                    <span className="material-symbols-outlined">
                                         double_arrow
                                     </span>
                                 </NavLink>
@@ -60,7 +60,7 @@ function Feature() {
                             </div>
                             <div className="feature-item-box-row-arrow">
                                 <NavLink to='/analysis'>
-                                    <span class="material-symbols-outlined">
+                                    <span className="material-symbols-outlined">
                                         double_arrow
                                     </span>
                                 </NavLink>
@@ -75,7 +75,7 @@ function Feature() {
                             </div>
                             <div className="feature-item-box-row-arrow">
                                 <NavLink to='/analysis'>
-                                    <span class="material-symbols-outlined">
+                                    <span className="material-symbols-outlined">
                                         double_arrow
                                     </span>
                                 </NavLink>
