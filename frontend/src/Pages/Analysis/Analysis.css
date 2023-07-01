@@ -13,8 +13,24 @@
     padding: 30px 85px;
 }
 
+.check_box{
+    margin-right: 10px;
+}
+
 .analysis_title {
     font-size: 23px;
+}
+
+.submit_button{
+    width: 30%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: none;
+    font-size: 20px;
+    color: #fff;
+    cursor: pointer;
+    background-color: rgb(77, 77, 221);
+    border-radius: 10px;
 }
 
 .que {
