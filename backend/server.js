@@ -6,7 +6,7 @@ const userRoute = require("./routes/user");
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 
-mongoose.connect( "mongodb+srv://DHRUVA:DHRUVA@cluster0.lp8ku9c.mongodb.net/LOVETODO?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect( "mongodb+srv://DHRUVA:DHRUVA@cluster0.lp8ku9c.mongodb.net/MINDMATE_DB?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true })
 	.then(() => console.log('MongoDB connected'))
 	.catch((err) => console.log('Error connecting to MongoDB', err));
 
