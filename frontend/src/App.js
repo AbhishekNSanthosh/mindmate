@@ -10,6 +10,8 @@ import Feature from "./Pages/Feature/Feature";
 import Analysis from "./Pages/Analysis/Analysis";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import DatatablePage from "./Pages/ClinicPage/ClinicPage";
+import TableList from "./Pages/ClinicPage/ClinicPage";
 
 
 
@@ -57,6 +59,10 @@ function App() {
     {
       path: "analysis",
       element: <Analysis token={token} user={user} />
+    },
+    {
+      path: "book",
+      element: <TableList token={token} user={user} />
     },
   ])} />;
 }
