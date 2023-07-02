@@ -9,13 +9,17 @@ import {
 import Feature from "./Pages/Feature/Feature";
 import Analysis from "./Pages/Analysis/Analysis";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 
 
 function App() {
   const url = 'https://dev-mindmate.onrender.com/api/v1/users'
-  const token = localStorage.getItem('accessToken')
+  const token = localStorage.getItem('accessToken');
+  const userObj = localStorage.getItem('user');
+  const user = JSON.parse(userObj);
+  const [reload, setReload] = useState();
+
   const handleGetUSerDetails = () => {
     axios.get(url + '/getUserDetails', {
       headers: {
@@ -23,29 +27,36 @@ function App() {
       }
     }).then((res) => {
       console.log(res)
+      localStorage.setItem('user', JSON.stringify(res?.data?.data))
     }).catch((err) => {
       console.log(err)
     })
   }
 
   useEffect(() => {
-    handleGetUSerDetails();
-  }, [])
+    if (token) {
+      handleGetUSerDetails();
+    }
+  }, [reload])
+
+  const getcall = (data) => {
+    setReload(data);
+  }
 
   return <RouterProvider router={createBrowserRouter([
     {
       path: "/",
       element: (
-        <Home token={token} />
+        <Home token={token} getcall={getcall} />
       ),
     },
     {
       path: "feature",
-      element: <Feature token={token} />,
+      element: <Feature token={token} user={user} />,
     },
     {
       path: "analysis",
-      element: <Analysis token={token} />
+      element: <Analysis token={token} user={user} />
     },
   ])} />;
 }

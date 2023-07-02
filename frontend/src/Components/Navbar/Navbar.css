@@ -8,6 +8,10 @@
     /* background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.63), rgba(255, 255, 255, 0)); */
 }
 
+.account{
+    cursor: pointer;
+}
+
     link{
       text-decoration: none;
     }
