@@ -5,12 +5,12 @@ import Banner from '../../Components/Banner/Banner'
 import FeaturesRow from '../../Components/FeaturesRow/FeaturesRow'
 import Footer from '../../Components/Footer/Footer'
 
-function Home() {
+function Home({user,token,getcall}) {
   return (
     <div className="container">
       <div className='home-container'>
         <div className="home-item">
-          <Navbar />
+          <Navbar user={user} token={token} getcall={getcall}/>
         </div>
         <div className="home-item">
           <Banner />

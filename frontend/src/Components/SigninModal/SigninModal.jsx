@@ -10,14 +10,24 @@ import { Divider, TextField } from '@mui/material';
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 
-export default function SigninModal({ modal, handleClose }) {
+export default function SigninModal({getcall, modal, handleClose }) {
     const [username, setUsername] = React.useState("")
     const [password, setPassword] = React.useState("")
     const [email, setEmail] = React.useState("");
     const url = 'https://dev-mindmate.onrender.com/api/v1/users'
     const navigate = useNavigate();
+
+    const token = localStorage.getItem('accessToken');
+
+    useEffect(() => {
+        if (token) {
+            handleClose()
+        }
+    }, [])
+
 
     const handleSignup = () => {
         axios.post(url + '/signup', {
@@ -39,8 +49,10 @@ export default function SigninModal({ modal, handleClose }) {
         axios.post(url + '/login', {
             username, password
         }).then((res) => {
-            console.log(res.data)
+            console.log(res.data);
+            getcall(true)
             localStorage.setItem('accessToken', res?.data?.accessToken)
+            localStorage.setItem('user', JSON.stringify(res?.data?.data))
             toast.success(res?.data?.message);
             handleClose()
             setTimeout(() => {

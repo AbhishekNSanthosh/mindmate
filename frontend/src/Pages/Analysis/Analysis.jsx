@@ -8,9 +8,10 @@ import { green, lightGreen } from '@mui/material/colors';
 import axios from 'axios'
 import { useEffect } from 'react';
 import ResultModal from '../../Components/ResultModal/ResultModal';
+import { useNavigate } from 'react-router-dom';
 
 
-function Analysis() {
+function Analysis({ token }) {
 
     const [questions, setQuestions] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
@@ -19,7 +20,7 @@ function Analysis() {
     const handleClose = () => setModalOpen(true);
 
     const getAllQuestions = () => {
-        axios.get(url+'/mindMateQuestions')
+        axios.get(url + '/mindMateQuestions')
             .then((res) => {
                 setQuestions(res?.data?.data)
             }).catch((err) => {
@@ -30,6 +31,15 @@ function Analysis() {
     useEffect(() => {
         getAllQuestions();
     }, [])
+
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (!token) {
+            navigate('/')
+        }
+    }, [])
+
 
     const options = [
         { label: "Strongly Agree", value: 2 },
