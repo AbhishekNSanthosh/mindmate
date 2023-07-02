@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Navbar.css'
+import SigninModal from '../SigninModal/SigninModal'
 
 function Navbar() {
+  const [modal, setModal] = useState(false);
+  const handleClose = () => setModal(false);
   return (
     <div className='navbar'>
       <div className="nav left">
@@ -23,16 +26,20 @@ function Navbar() {
           <span className="nav-title">Services</span>
         </div>
       </div>
-      <div className="nav right">
+      <div className="nav right" onClick={() => {
+        setModal(true);
+      }}>
         <div className="nav-item">
-          <span className="nav-title">Hi, Abhiram</span>
+          <span className="nav-title">Login</span>
         </div>
         <div className="nav-item">
-          <span className="material-symbols-outlined">
+          {/* <span className="material-symbols-outlined">
             account_circle
-          </span>
+          </span> */}
+          <span className="nav-title">Signup</span>
         </div>
       </div>
+      <SigninModal modal={modal} handleClose={handleClose} />
     </div>
   )
 }
