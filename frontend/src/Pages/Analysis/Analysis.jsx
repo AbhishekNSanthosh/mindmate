@@ -11,7 +11,7 @@ import ResultModal from '../../Components/ResultModal/ResultModal';
 import { useNavigate } from 'react-router-dom';
 
 
-function Analysis({ token }) {
+function Analysis() {
 
     const [questions, setQuestions] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
@@ -33,7 +33,7 @@ function Analysis({ token }) {
     }, [])
 
     const navigate = useNavigate()
-
+const token = localStorage.getItem('accessToken')
     useEffect(() => {
         if (!token) {
             navigate('/')
