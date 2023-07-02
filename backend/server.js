@@ -20,7 +20,11 @@ app.use(function(req, res, next) {
 app.use(bodyParser.json())
 app.use('/public',express.static('public'))
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000, https://mindmate-phi.vercel.app');
+  const allowedOrigins = ['http://localhost:3000', 'https://mindmate-phi.vercel.app'];
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'authorization, Content-Type');
   next();
