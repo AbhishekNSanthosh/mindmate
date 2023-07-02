@@ -5,6 +5,8 @@ const validator = require('validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Questionnaire = require('../Models/Question');
+const Result = require('../Models/Result');
+const Appointment = require('../Models/Appointments');
 
 
 // const verifyToken = async (req, res, next) => {
@@ -15,10 +17,8 @@ const Questionnaire = require('../Models/Question');
 //             message: "Token not found.",
 //         });
 //     }
-//     if (req.headers.authorization) {
 //         let token = req.headers.authorization.split(" ")[1];
 //         console.log(token)
-//     }
 //     if (!token) {
 //         return res.status(403).json({
 //             status: false,
@@ -58,6 +58,50 @@ const Questionnaire = require('../Models/Question');
 //         }
 //     }
 // };
+
+const verifyToken = async (req, res, next) => {
+    const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
+
+    if (!token) {
+        return res.status(401).json({
+            status: "FAILURE",
+            error: 'Token not found!'
+        });
+    }
+
+    try {
+        const decoded = jwt.verify(token, 'home-care-app');
+
+        console.log('Token is valid', decoded.userId);
+        const user = await User.findOne({ _id: decoded.userId })
+        console.log(user)
+
+        if (decoded.userName !== user?.username) {
+            return res.status(401).json({
+                status: false,
+                message: "Not Authorized",
+            });
+        }
+        req.userId = decoded?.userId
+        req.accessToken = token
+        next()
+    } catch (error) {
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({
+                statusCode: 401,
+                status: "FAILURE",
+                message: 'Token has expired !'
+            });
+        } else {
+            console.error('Token verification failed', error);
+            return res.status(401).json({
+                statusCode: 401,
+                status: "FAILURE",
+                message: 'Authentication failed'
+            });
+        }
+    }
+}
 
 router.get('/get', (req, res) => {
     res.send('hello world')
@@ -170,6 +214,26 @@ router.post('/login', async (req, res) => {
 })
 
 
+//get user details
+router.get('/getUserDetails', verifyToken, async (req, res) => {
+    try {
+        const user = await User.findOne({ _id: req.userId });
+        const { password, ...userInfo } = user._doc
+        return res.status(200).json({
+            statusCode: 200,
+            status: "SUCCESS",
+            accessToken: req.accessToken,
+            data: userInfo,
+        });
+    } catch (error) {
+        return res.status(401).json({
+            statusCode: 401,
+            status: "FAILURE",
+            message: 'Bad request'
+        });
+    }
+})
+
 router.post('/addQuestions', async (req, res) => {
     console.log('h', req.body);
     try {
@@ -179,7 +243,7 @@ router.post('/addQuestions', async (req, res) => {
         })
         question.save();
         return res.status(201).json({
-            status:"SUCCESS"
+            status: "SUCCESS"
         })
     } catch (error) {
         return res.status(500).json({
@@ -188,14 +252,14 @@ router.post('/addQuestions', async (req, res) => {
     }
 })
 
-router.get('/mindMateQuestions',async(req,res)=>{
+router.get('/mindMateQuestions', async (req, res) => {
     try {
         const questions = await Questionnaire.find();
         console.log(questions)
         return res.status(200).json({
-            status:"success",
-            data:questions,
-            count:questions.length
+            status: "success",
+            data: questions,
+            count: questions.length
         })
     } catch (error) {
         return res.status(500).json({
@@ -204,5 +268,172 @@ router.get('/mindMateQuestions',async(req,res)=>{
     }
 })
 
+router.post('/saveResult', verifyToken, (req, res) => {
+    try {
+        if (!req.body.result) {
+            return res.status(403).json({
+                status: "FAILURE",
+                error: "Invalid result!"
+            })
+        }
+        const result = new Result({
+            result: req.body.result,
+            createdBy: req.userId
+        })
+        result.save();
+        return res.status(200).json({
+            status: "SUCCESS",
+            accessToken: req.accessToken
+        })
+    } catch (error) {
+        return res.status(500).json({
+            error: true
+        });
+    }
+})
+
+router.get('/getPreviousResults', verifyToken, async (req, res) => {
+    try {
+        const results = await Result.find({ createdBy: req.userId }).sort({ createdAt: -1 }).populate('createdBy', 'username email')
+        console.log(results)
+        return res.status(200).json({
+            status: "SUCCESS",
+            data: results,
+            accessToken: req.accessToken
+        })
+    } catch (error) {
+        return res.status(500).json({
+            error: true
+        });
+    }
+})
+
+router.post('/appointments', verifyToken, async (req, res) => {
+    const { username, date, time, hospitalname } = req.body;
+
+    // Check if the appointment with the same date and time already exists
+    await Appointment.findOne({ date, time })
+        .then(existingAppointment => {
+            if (existingAppointment) {
+                return res.status(409).json({
+                    status: "FAILURE",
+                    error: 'Appointment already exists for the given date and time'
+                });
+            }
+
+            // Create a new appointment object
+            const newAppointment = new Appointment({ username: req.userId, date, time, hospitalname });
+
+            // Save the new appointment to the database
+            newAppointment.save()
+                .then(savedAppointment => {
+                    // Return success response with the newly created appointment
+                    return res.status(200).json({
+                        accessToken: req.accessToken,
+                        message: 'Appointment booked successfully',
+                        appointment: savedAppointment
+                    });
+                })
+                .catch(error => {
+                    // Handle any save errors
+                    return res.status(500).json({
+                        error: 'Failed to book appointment'
+                    });
+                });
+        })
+        .catch(error => {
+            // Handle any query errors
+            return res.status(500).json({
+                error: 'Failed to check existing appointments'
+            });
+        });
+});
+
+router.post('/bookAppointment', verifyToken, async (req, res) => {
+    const { date, time, hospitalname } = req.body;
+    try {
+        const existingAppointment = await Appointment.findOne({ date, time });
+        if (existingAppointment) {
+            return res.status(403).json({
+                status: 'FAILURE',
+                message: "Appointment already exists!"
+            })
+        }
+
+        const newAppointment = new Appointment({ username: req.userId, date, time, hospitalname, createdBy: req.userId });
+
+        newAppointment.save()
+            .then(savedAppointment => {
+                return res.status(200).json({
+                    accessToken: req.accessToken,
+                    message: 'Appointment booked successfully',
+                    appointment: savedAppointment
+                });
+            })
+            .catch(error => {
+                return res.status(500).json({
+                    error: `Failed to book appointment\n${error}`
+                });
+            });
+    } catch (error) {
+        return res.status(500).json({
+            status: "FAILURE",
+            error: error
+        })
+    }
+})
+
+
+//get all apointment
+router.get('/appointments/upcoming', verifyToken, async (req, res) => {
+    const currentDate = new Date();
+    // Find all appointments where the date is greater than or equal to the current date
+    await Appointment.find({ date: { $gte: currentDate } })
+        .then(appointments => {
+            res.status(200).json({
+                status: "SUCCESS",
+                appointments,
+                accessToken: req.accessToken
+            });
+        })
+        .catch(error => {
+            res.status(500).json({ error: 'Failed to fetch upcoming appointments' });
+        });
+});
+
+//api to get user appointments
+router.get('/upcomingAppointments', verifyToken, async (req, res) => {
+    const currentDate = new Date();
+    // Find all appointments where the date is greater than or equal to the current date
+    await Appointment.find({ date: { $gte: currentDate }, createdBy: req.userId })
+        .then(appointments => {
+            res.status(200).json({
+                status: "SUCCESS",
+                appointments,
+                accessToken: req.accessToken
+            });
+        })
+        .catch(error => {
+            res.status(500).json({ error: 'Failed to fetch upcoming appointments' });
+        });
+});
+
+
+//api to get all users
+router.get('/getAllUsers', verifyToken, async (req, res) => {
+    try {
+        const users = await User.find();
+        return res.status(200).json({
+            status: "SUCCESS",
+            data: users,
+            accessToken: req.accessToken
+        })
+    } catch (error) {
+        return res.status(500).json({
+            status: "FAILURE",
+            error: error
+        })
+    }
+})
 
 module.exports = router
