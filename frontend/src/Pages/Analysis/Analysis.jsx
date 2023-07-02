@@ -15,15 +15,15 @@ function Analysis() {
     const [questions, setQuestions] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
     const [result, setResult] = useState("")
-
+    const url = 'https://dev-mindmate.onrender.com/api/v1/users'
     const handleClose = () => setModalOpen(true);
 
     const getAllQuestions = () => {
-        axios.get('https://dev-mindmate.onrender.com/api/v1/users/mindMateQuestions')
+        axios.get(url+'/mindMateQuestions')
             .then((res) => {
                 setQuestions(res?.data?.data)
             }).catch((err) => {
-    
+
             })
     }
 
@@ -133,7 +133,7 @@ function Analysis() {
                 </form>
                 <hr />
             </div>
-            <ResultModal handleClose={handleClose} modalOpen={modalOpen} result={result}/>
+            <ResultModal handleClose={handleClose} modalOpen={modalOpen} result={result} />
         </div>
     )
 }
