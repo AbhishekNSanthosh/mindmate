@@ -18,7 +18,7 @@ function App() {
   const token = localStorage.getItem('accessToken');
   const userObj = localStorage.getItem('user');
   const user = JSON.parse(userObj);
-  const [reload, setReload] = useState();
+  const [reload, setReload] = useState(false);
 
   const handleGetUSerDetails = () => {
     axios.get(url + '/getUserDetails', {
