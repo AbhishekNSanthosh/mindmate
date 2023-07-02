@@ -37,10 +37,10 @@ function App() {
     if (token) {
       handleGetUSerDetails();
     }
-  }, [reload])
+  }, [])
 
-  const getcall = (data) => {
-    setReload(data);
+  const getcall = () => {
+    setReload(true);
   }
 
   return <RouterProvider router={createBrowserRouter([

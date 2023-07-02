@@ -1,14 +1,76 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Navbar.css'
 import SigninModal from '../SigninModal/SigninModal'
 import { toast } from 'react-hot-toast';
+import axios from 'axios';
+import { json, useNavigate } from 'react-router-dom';
 
-function Navbar({ token,getcall }) {
+function Navbar({ user }) {
   const [modal, setModal] = useState(false);
   const handleClose = () => setModal(false);
-  const userObj = localStorage.getItem('user');
-  const user = JSON.parse(userObj);
-  console.log(user?.username)
+  const [userData, setUserData] = useState(JSON.parse(localStorage.getItem('user')))
+  const [username, setUsername] = React.useState("")
+  const [password, setPassword] = React.useState("")
+  const [email, setEmail] = React.useState("");
+  const url = 'https://dev-mindmate.onrender.com/api/v1/users'
+  const navigate = useNavigate();
+
+  const token = localStorage.getItem('accessToken');
+console.log(userData)
+  useEffect(() => {
+    if (token) {
+      handleClose()
+    }
+  }, [])
+
+  const handleusername = (data) => {
+    setUsername(data)
+  }
+
+  const handlepassword = (data) => {
+    setPassword(data)
+  }
+
+  const handlemail = (data) => {
+    setEmail(data)
+  }
+
+  const handleSignup = () => {
+    axios.post(url + '/signup', {
+      username, email, password
+    }).then((res) => {
+      console.log(res.data)
+      if (res?.data?.statusCode === 201) {
+        toast.success(res?.data?.message);
+      } else {
+        toast.error('Something went wrong!')
+      }
+    }).catch((err) => {
+      toast.error('Something went wrong!')
+      console.log(err)
+    })
+  }
+
+  const handleLogin = () => {
+    axios.post(url + '/login', {
+      username, password
+    }).then((res) => {
+      console.log(res.data);
+      // getcall(true)
+      setUserData(res?.data?.data)
+      localStorage.setItem('accessToken', res?.data?.accessToken)
+      localStorage.setItem('user', JSON.stringify(res?.data?.data))
+      toast.success(res?.data?.message);
+      handleClose()
+      setTimeout(() => {
+        navigate('/')
+      }, 900);
+    }).catch((err) => {
+      toast.error('Something went wrong!')
+      console.log(err)
+    })
+  }
+
   return (
     <div className='navbar'>
       <div className="nav left">
@@ -41,7 +103,7 @@ function Navbar({ token,getcall }) {
                 account_circle
               </span>
             </div>
-            <div className="nav-item" onClick={()=>{
+            <div className="nav-item" onClick={() => {
               localStorage.clear();
               toast.success('Logout successfull')
               setTimeout(() => {
@@ -69,7 +131,7 @@ function Navbar({ token,getcall }) {
           </>
         </div>
       }
-      <SigninModal getcall={getcall} modal={modal} handleClose={handleClose} />
+      <SigninModal handleusername={handleusername} handlepassword={handlepassword} handlemail={handlemail} handleLogin={handleLogin} handleSignup={handleSignup} modal={modal} handleClose={handleClose} />
     </div>
   )
 }
