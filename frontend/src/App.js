@@ -10,6 +10,9 @@ import Feature from "./Pages/Feature/Feature";
 import Analysis from "./Pages/Analysis/Analysis";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import DatatablePage from "./Pages/ClinicPage/ClinicPage";
+import TableList from "./Pages/ClinicPage/ClinicPage";
+import { toast } from "react-hot-toast";
 
 
 
@@ -30,6 +33,10 @@ function App() {
       localStorage.setItem('user', JSON.stringify(res?.data?.data))
     }).catch((err) => {
       console.log(err)
+      if (err?.response?.data?.statusCode === 401) {
+        localStorage.clear();
+        toast.error('Session Expired!')
+      }
     })
   }
 
@@ -57,6 +64,10 @@ function App() {
     {
       path: "analysis",
       element: <Analysis token={token} user={user} />
+    },
+    {
+      path: "book",
+      element: <TableList token={token} user={user} />
     },
   ])} />;
 }
