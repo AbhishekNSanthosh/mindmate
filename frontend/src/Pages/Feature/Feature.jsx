@@ -59,7 +59,7 @@ function Feature() {
                                 <span className="item-d">Easily find and book counselling centers or therapists near you. Take the first step towards seeking professional guidance and support for your mental well-being.</span>
                             </div>
                             <div className="feature-item-box-row-arrow">
-                                <NavLink to='/analysis'>
+                                <NavLink to='/book'>
                                     <span className="material-symbols-outlined">
                                         double_arrow
                                     </span>

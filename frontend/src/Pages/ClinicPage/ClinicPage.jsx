@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import Navbar from '../../Components/Navbar/Navbar';
 import './ClinicPage.css'
+import axios from 'axios';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 const TableList = () => {
 
@@ -32,8 +36,8 @@ const TableList = () => {
     ]);
 
     const [selectedHospital, setSelectedHospital] = useState('');
-    const [selectedDate, setSelectedDate] = useState('');
-    const [selectedTime, setSelectedTime] = useState('');
+    const [selectedDate, setSelectedDate] = useState(0);
+    const [selectedTime, setSelectedTime] = useState(0);
 
     const handleHospitalChange = (e) => {
         setSelectedHospital(e.target.value);
@@ -60,6 +64,38 @@ const TableList = () => {
         setSelectedDate('');
         setSelectedTime('');
     };
+    const url = 'https://dev-mindmate.onrender.com/api/v1/users'
+    const token = localStorage.getItem('accessToken');
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (!token) {
+            navigate('/')
+        }
+    }, [])
+
+    const handleAppointment = (e) => {
+        e.preventDefault();
+        axios.post(url + '/bookAppointment', {
+            date: selectedDate,
+            time: selectedTime,
+            hospitalname: selectedHospital
+        }, {
+            headers: {
+                Authorization: "Bearer " + token
+            }
+        }).then((res) => {
+            console.log(res);
+            toast.success(res?.data?.message);
+            setSelectedDate(0);
+            setSelectedHospital("");
+            setSelectedTime(0)
+        }).catch((err) => {
+            console.log(err);
+            toast.error(err?.response.data?.message);
+            setSelectedTime(0);
+            setSelectedDate(0);
+        })
+    }
 
     return (
         <div className="book_container">
@@ -71,31 +107,7 @@ const TableList = () => {
                     {/* Search input field */}
 
                     {/* Table */}
-                    <form onSubmit={handleSubmit}>
-                        {/* <table>
-                            <thead>
-                                <tr>
-                                    <th>Hospital Name</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filteredData.map((item) => (
-                                    <tr key={item.id}>
-                                        <td>
-                                            <label>
-                                                <input
-                                                    type="radio"
-                                                    value={item.name}
-                                                    checked={selectedHospital === item.name}
-                                                    onChange={handleHospitalChange}
-                                                />
-                                                {item.name}
-                                            </label>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table> */}
+                    <form onSubmit={handleAppointment}>
                         <div className="book_row_title">
                             <span className="book_title">
                                 Book Appointments
