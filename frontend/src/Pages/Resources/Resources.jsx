@@ -25,6 +25,12 @@ function Resources() {
   useEffect(() => {
     getResources();
   }, [])
+
+  useEffect(() => {
+    if (!token) {
+      navigate('/')
+    }
+  }, [])
   return (
     <div className='resources'>
       <div className="nav_wrap">
