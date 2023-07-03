@@ -15,6 +15,7 @@ import TableList from "./Pages/ClinicPage/ClinicPage";
 import { toast } from "react-hot-toast";
 import Progress from "./Pages/Progress/Progress";
 import Resources from "./Pages/Resources/Resources";
+import ResourceData from "./Pages/ResourceData/ResourceData";
 
 
 
@@ -79,6 +80,10 @@ function App() {
     {
       path: "resources",
       element: <Resources token={token} user={user} />
+    },
+    {
+      path: "resources/info",
+      element: <ResourceData token={token} user={user} />
     },
   ])} />;
 }

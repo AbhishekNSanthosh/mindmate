@@ -12,6 +12,7 @@ function Navbar({ user }) {
   const [username, setUsername] = React.useState("")
   const [password, setPassword] = React.useState("")
   const [email, setEmail] = React.useState("");
+  const [loading, setLoading] = useState(false);
   const url = 'https://dev-mindmate.onrender.com/api/v1/users'
   const navigate = useNavigate();
 
@@ -52,20 +53,29 @@ function Navbar({ user }) {
   }
 
   const handleLogin = () => {
-    axios.post(url + '/login', {
-      username, password
-    }).then((res) => {
-      console.log(res.data);
-      // getcall(true)
-      setUserData(res?.data?.data)
-      localStorage.setItem('accessToken', res?.data?.accessToken)
-      localStorage.setItem('user', JSON.stringify(res?.data?.data))
-      toast.success(res?.data?.message);
-      handleClose()
-    }).catch((err) => {
+    setLoading(true)
+    try {
+      axios.post(url + '/login', {
+        username, password
+      }).then((res) => {
+        console.log(res.data);
+        // getcall(true)
+        setUserData(res?.data?.data)
+        localStorage.setItem('accessToken', res?.data?.accessToken)
+        localStorage.setItem('user', JSON.stringify(res?.data?.data))
+        toast.success(res?.data?.message);
+        handleClose()
+        setLoading(false)
+      }).catch((err) => {
+        toast.error('Something went wrong!')
+        console.log(err)
+        setLoading(false)
+      })
+    } catch (error) {
+      setLoading(false)
       toast.error('Something went wrong!')
-      console.log(err)
-    })
+      console.log(error)
+    }
   }
 
   return (
@@ -132,7 +142,7 @@ function Navbar({ user }) {
           </>
         </div>
       }
-      <SigninModal handleusername={handleusername} handlepassword={handlepassword} handlemail={handlemail} handleLogin={handleLogin} handleSignup={handleSignup} modal={modal} handleClose={handleClose} />
+      <SigninModal loading={loading} handleusername={handleusername} handlepassword={handlepassword} handlemail={handlemail} handleLogin={handleLogin} handleSignup={handleSignup} modal={modal} handleClose={handleClose} />
     </div>
   )
 }
