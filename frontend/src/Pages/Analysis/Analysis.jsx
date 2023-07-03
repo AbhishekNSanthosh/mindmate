@@ -9,12 +9,14 @@ import axios from 'axios'
 import { useEffect } from 'react';
 import ResultModal from '../../Components/ResultModal/ResultModal';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 
 function Analysis() {
 
     const [questions, setQuestions] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
+    const [count, setCount] = useState([]);
     const [result, setResult] = useState("")
     const url = 'https://dev-mindmate.onrender.com/api/v1/users'
     const handleClose = () => setModalOpen(true);
@@ -28,19 +30,25 @@ function Analysis() {
             })
     }
 
+    const handlecount = (index, value) => {
+        const updatedCount = [...count];
+        updatedCount[index] = value;
+        setCount(updatedCount);
+    }
+
     useEffect(() => {
         getAllQuestions();
     }, [])
 
     const navigate = useNavigate()
-const token = localStorage.getItem('accessToken')
+    const token = localStorage.getItem('accessToken')
     useEffect(() => {
         if (!token) {
             navigate('/')
         }
     }, [])
 
-
+    console.log(count)
     const options = [
         { label: "Strongly Agree", value: 2 },
         { label: "Agree", value: 1 },
@@ -95,12 +103,29 @@ const token = localStorage.getItem('accessToken')
         return mentalState;
     };
 
+    const handleSubmitResult = (result) => {
+        console.log(result)
+
+        axios.post(url + '/saveResult', {
+            result
+        }, {
+            headers: {
+                Authorization: "Bearer " + token
+            }
+        }).then((res) => {
+            console.log(res)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const result = calculateMentalState();
         // Display the result to the user or perform any additional actions
         setResult(result);
-        setAnswers([]); // Reset the answers after submitting
+        setAnswers([]);
+        handleSubmitResult(result);// Reset the answers after submitting
     };
     return (
         <div className='analysis'>
@@ -127,7 +152,10 @@ const token = localStorage.getItem('accessToken')
                                             name={`question-${index}`}
                                             value={option.value}
                                             checked={answers[index] === option.value}
-                                            onChange={() => handleAnswerChange(index, option.value)}
+                                            onChange={() => {
+                                                handleAnswerChange(index, option.value)
+                                                handlecount(index, option.value);
+                                            }}
                                         />
                                         {option.label}
                                     </label>
@@ -135,7 +163,7 @@ const token = localStorage.getItem('accessToken')
                             ))}
                         </div>
                     ))}
-                    <button type="submit" className='submit_button' onClick={() => {
+                    <button disabled={count.length === 0} type="submit" className='submit_button' onClick={() => {
                         setTimeout(() => {
                             setModalOpen(true)
                         }, 900);

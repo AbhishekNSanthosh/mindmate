@@ -295,7 +295,7 @@ router.post('/saveResult', verifyToken, (req, res) => {
 
 router.get('/getPreviousResults', verifyToken, async (req, res) => {
     try {
-        const results = await Result.find({ createdBy: req.userId }).sort({ createdAt: -1 }).populate('createdBy', 'username email')
+        const results = await Result.find({ createdBy: req.userId }).sort({ createdAt: 'desc' }).populate('createdBy', 'username email')
         console.log(results)
         return res.status(200).json({
             status: "SUCCESS",

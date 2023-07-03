@@ -5,6 +5,7 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import './ResultModal.css'
 import { NavLink } from 'react-router-dom';
+import axios from 'axios';
 
 export default function ResultModal({ handleClose, modalOpen, result }) {
   const [open, setOpen] = React.useState(false);
@@ -30,7 +31,7 @@ export default function ResultModal({ handleClose, modalOpen, result }) {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: 585,
+            width: 785,
             bgcolor: 'background.paper',
             border: 'none',
             boxShadow: 24,
@@ -51,12 +52,21 @@ export default function ResultModal({ handleClose, modalOpen, result }) {
                 </div>
               </div>
               <div className="result_row">
-                <div className="result_row_item">
-                  <button className="result_row_button">Book Appointment.</button>
-                </div>
-                <div className="result_row_item">
-                  <button className="result_row_button">Resourse</button>
-                </div>
+                <NavLink to='/book'>
+                  <div className="result_row_item">
+                    <button className="result_row_button">Book Appointment.</button>
+                  </div>
+                </NavLink>
+                <NavLink to='/resources'>
+                  <div className="result_row_item">
+                    <button className="result_row_button">Resourse</button>
+                  </div>
+                </NavLink>
+                <NavLink to='/progress'>
+                  <div className="result_row_item">
+                    <button className="result_row_button">Progress</button>
+                  </div>
+                </NavLink>
                 <NavLink to='/'>
                   <div className="result_row_item">
                     <button className="result_row_button">Exit</button>
