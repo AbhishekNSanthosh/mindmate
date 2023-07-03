@@ -66,7 +66,7 @@ function BookAdmin({ users }) {
         setSelectedTime('');
     };
     const url = 'https://dev-mindmate.onrender.com/api/v1/users'
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('adminAccessToken')
     const navigate = useNavigate();
     useEffect(() => {
         if (!token) {
@@ -76,9 +76,11 @@ function BookAdmin({ users }) {
 
     const handleAppointment = (e) => {
         e.preventDefault();
-        axios.post(url + '/bookAppointment', {
+        console.log(username)
+        axios.post(url + '/AdminBookAppointment', {
             date: selectedDate,
             time: selectedTime,
+            username:username,
             hospitalname: selectedHospital
         }, {
             headers: {
@@ -90,9 +92,6 @@ function BookAdmin({ users }) {
             setSelectedDate(0);
             setSelectedHospital("");
             setSelectedTime(0)
-            setTimeout(() => {
-                navigate('/progress')
-            }, 300);
         }).catch((err) => {
             console.log(err);
             toast.error(err?.response.data?.message);
@@ -117,7 +116,7 @@ function BookAdmin({ users }) {
                         placeholder="Search by Hospital name..."
                     />
                     <select id="mySelector" onChange={(e) => {
-                        setUserId(e.target.value);
+                        setUsername(e.target.value);
                     }} className='search-input'>
                         {users && users.map((user, index) => (
                             <option key={index} value={user?.username}>{user?.username}</option>

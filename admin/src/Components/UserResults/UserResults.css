@@ -1,0 +1,48 @@
+.results_row_item {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content:start;
+    border-bottom: 1px solid lightgray;
+}
+
+.results_container {
+    display: flex;
+    width: 100%;
+    overflow-x: hidden;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.user_results_name{
+    font-size: 17px;
+}
+
+.results_row_item_index{
+    font-size: 16px;
+    margin-right: 13px;
+}
+
+.result_col {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+    flex-direction: column;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.bold {
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 19px;
+}
+
+.results_row {
+    margin-bottom: 15px;
+}
+
+.progressess {
+    font-size: 20px;
+}
