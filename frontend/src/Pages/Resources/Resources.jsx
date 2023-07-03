@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Resources.css'
 import Navbar from '../../Components/Navbar/Navbar';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Resources() {
   const [resources, setReources] = useState([])
@@ -20,7 +21,7 @@ function Resources() {
       console.log(err)
     })
   }
-
+  const navigate = useNavigate();
   useEffect(() => {
     getResources();
   }, [])
@@ -32,7 +33,9 @@ function Resources() {
       <div className="resources_wrap">
         <div className="resources_grid">
           {resources && resources.map((resource) => (
-            <div className="resources_item">
+            <div className="resources_item" onClick={() => {
+              navigate('/resources/info', { state: resource })
+            }}>
               {resource?.resourceTitle}
             </div>
           ))}
