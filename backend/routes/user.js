@@ -406,6 +406,24 @@ router.get('/getPreviousResults', verifyToken, async (req, res) => {
     }
 })
 
+//admin view result
+router.get('/userResults/:userId', verifyAdminToken, async (req, res) => {
+    const { userId } = req.params
+    try {
+        const result = await Result.find({ createdBy: userId });
+        console.log(result);
+        return res.status(200).json({
+            status: "SUCCESS",
+            data: result,
+            accessToken: req.accessToken
+        })
+    } catch (error) {
+        return res.status(500).json({
+            error: true
+        });
+    }
+})
+
 router.post('/bookAppointment', verifyToken, async (req, res) => {
     const { date, time, hospitalname } = req.body;
     try {
@@ -441,7 +459,7 @@ router.post('/bookAppointment', verifyToken, async (req, res) => {
 })
 
 router.post('/AdminBookAppointment', verifyAdminToken, async (req, res) => {
-    const {userId,username ,date, time, hospitalname } = req.body;
+    const { userId, username, date, time, hospitalname } = req.body;
     try {
         const existingAppointment = await Appointment.findOne({ date, time });
         if (existingAppointment) {
@@ -473,6 +491,7 @@ router.post('/AdminBookAppointment', verifyAdminToken, async (req, res) => {
         })
     }
 })
+
 
 
 //get all apointment
