@@ -53,7 +53,7 @@ function Dashboard() {
     return (
         <div className='dashboard'>
             <div className="navbar_wrap">
-                <Navbar />
+                <Navbar users={users}/>
             </div>
             <div className="dasboard_container">
                 <div className="dasboar_item_row">
