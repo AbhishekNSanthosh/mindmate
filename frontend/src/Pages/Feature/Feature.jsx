@@ -42,7 +42,7 @@ function Feature() {
                                 <span className="item-d">Explore a comprehensive collection of mental health resources at your fingertips. Discover articles, videos, guides, and more to support your journey towards mental well-being..</span>
                             </div>
                             <div className="feature-item-box-row-arrow">
-                                <NavLink to='/analysis'>
+                                <NavLink to='/resources'>
                                     <span className="material-symbols-outlined">
                                         double_arrow
                                     </span>
