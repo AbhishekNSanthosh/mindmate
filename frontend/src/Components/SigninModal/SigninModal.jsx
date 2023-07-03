@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 
-export default function SigninModal({loading, handleemail, handlepassword, handleusername, handleLogin, handleSignup, modal, handleClose }) {
+export default function SigninModal({loading, handlemail, handlepassword, handleusername, handleLogin, handleSignup, modal, handleClose }) {
 
     return (
         <div>
@@ -51,7 +51,7 @@ export default function SigninModal({loading, handleemail, handlepassword, handl
                                 <div className="signin_row_col">
                                     <span className="signin">Signup</span>
                                     <TextField onChange={(e) => { handleusername(e.target.value) }} variant='outlined' label="Username" />
-                                    <TextField onChange={(e) => { handleemail(e.target.value) }} variant='outlined' label="Email" />
+                                    <TextField onChange={(e) => { handlemail(e.target.value) }} variant='outlined' label="Email" />
                                     <TextField onChange={(e) => { handlepassword(e.target.value) }} variant='outlined' label="Password" />
                                     <button onClick={() => {
                                         handleSignup()
