@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './Navbar.css'
 import UserResults from '../UserResults/UserResults';
 import axios from 'axios';
+import { toast } from 'react-hot-toast';
 
 function Navbar({ users }) {
   const [results, setResults] = useState([])
@@ -18,6 +19,14 @@ function Navbar({ users }) {
       }
     }).then((res) => {
       console.log(res);
+      if(res?.data?.count === 0){
+        toast.error("No progress to show!",{
+          style:{
+            backgroundColor:"#000",
+            color:"#fff"
+          }
+        })
+      }
       setResults(res?.data?.data)
     }).catch((err) => {
       console.log(err)

@@ -23,6 +23,10 @@ function App() {
       console.log(res);
     }).catch((err) => {
       console.log(err)
+      if(err?.response?.data?.code === 403){
+        localStorage.clear();
+        window.location.reload();
+      }
     })
   }
 
