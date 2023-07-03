@@ -13,7 +13,7 @@ function Appointment({
     return (
         <div className='appoinment'>
             <div className="appintment_item">
-                <span className="name">{appoinment?.createdBy?.username}</span>
+                <span className="name">{appoinment?.createdBy?.username ? appoinment?.createdBy?.username : appoinment?.username}</span>
             </div>
             <div className="appintment_item">
                 <span className="name_time">{formattedDate}</span>
