@@ -442,7 +442,7 @@ router.post('/bookAppointment', verifyToken, async (req, res) => {
 
 
 //get all apointment
-router.get('/appointments/upcoming', verifyToken, async (req, res) => {
+router.get('/appointments/upcoming', verifyAdminToken, async (req, res) => {
     const currentDate = new Date();
     // Find all appointments where the date is greater than or equal to the current date
     await Appointment.find({ date: { $gte: currentDate } }).sort({ createdAt: 'desc' }).populate('createdBy', 'username email')
@@ -495,7 +495,7 @@ router.get('/getAllUsers', verifyAdminToken, async (req, res) => {
 
 
 //create resources
-router.post('/addResources', verifyToken, async (req, res) => {
+router.post('/addResources', verifyAdminToken, async (req, res) => {
     const { resourceTitle, symptoms, seeDoctor, treatMent } = req.body;
     try {
         const resource = await StateResources.findOne({ resourceTitle });
@@ -552,7 +552,7 @@ router.get('/getResources', verifyToken, async (req, res) => {
 });
 
 //edit Resources
-router.put('/editResources/:id', verifyToken, async (req, res) => {
+router.put('/editResources/:id', verifyAdminToken, async (req, res) => {
     const { id } = req.params
     // const {resourceTitle,symptoms,seeDoctor,treatMent} = 
     const updatedData = req.body
