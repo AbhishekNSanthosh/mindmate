@@ -16,7 +16,7 @@ function Navbar({ user }) {
   const navigate = useNavigate();
 
   const token = localStorage.getItem('accessToken');
-console.log(userData)
+  console.log(userData)
   useEffect(() => {
     if (token) {
       handleClose()
@@ -62,9 +62,6 @@ console.log(userData)
       localStorage.setItem('user', JSON.stringify(res?.data?.data))
       toast.success(res?.data?.message);
       handleClose()
-      setTimeout(() => {
-        navigate('/')
-      }, 900);
     }).catch((err) => {
       toast.error('Something went wrong!')
       console.log(err)
@@ -75,12 +72,16 @@ console.log(userData)
     <div className='navbar'>
       <div className="nav left">
         <div className="nav-item">
-          <span className="title">MindMate</span>
+          <span className="title" onClick={() => {
+            navigate('/')
+          }}>MindMate</span>
         </div>
       </div>
       <div className="nav center">
         <div className="nav-item">
-          <span className="nav-title">Home</span>
+          <span className="nav-title" onClick={() => {
+            navigate('/')
+          }}>Home</span>
         </div>
         <div className="nav-item">
           <span className="nav-title">Explore</span>

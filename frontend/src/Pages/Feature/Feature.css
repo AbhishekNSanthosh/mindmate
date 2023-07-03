@@ -3,6 +3,10 @@
     color: #fff;
 }
 
+.click{
+    cursor: pointer;
+}
+
 .feature-container{
     padding: 30px 85px;
 }
