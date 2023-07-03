@@ -3,14 +3,29 @@ import './Dashboard.css';
 import toast, { Toaster } from 'react-hot-toast';
 import Navbar from '../../Components/Navbar/Navbar';
 import axios from 'axios';
+import { useEffect } from 'react';
 
 function Dashboard() {
     const url = 'https://dev-mindmate.onrender.com/api/v1/users'
     const token = localStorage.getItem('adminAccessToken')
-
+const [user,setUsers] = 
     const getAllUsers = () => {
-        axios.get(url+'getAllUsers',)
+        axios.get(url + '/getAllUsers', {
+            headers: {
+                Authorization: "Bearer " + token
+            }
+        }).then((res) => {
+            console.log(res?.data?.data);
+        }).catch((err) => {
+            console.log(err)
+        })
     }
+
+    useEffect(() => {
+        if (token) {
+            getAllUsers();
+        }
+    }, [])
     return (
         <div className='dashboard'>
             <div className="navbar_wrap">
