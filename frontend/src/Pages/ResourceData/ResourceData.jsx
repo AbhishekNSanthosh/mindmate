@@ -17,11 +17,7 @@ function ResourceData() {
         }
     }, [])
     const token = localStorage.getItem('accesToken')
-    useEffect(() => {
-        if (!token) {
-            navigate('/')
-        }
-    }, [])
+
     return (
         <div className='reasource_data_container'>
             <div className="nav_wrap">
