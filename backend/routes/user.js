@@ -445,7 +445,7 @@ router.post('/bookAppointment', verifyToken, async (req, res) => {
 router.get('/appointments/upcoming', verifyToken, async (req, res) => {
     const currentDate = new Date();
     // Find all appointments where the date is greater than or equal to the current date
-    await Appointment.find({ date: { $gte: currentDate } })
+    await Appointment.find({ date: { $gte: currentDate } }).sort({ createdAt: 'desc' }).populate('createdBy', 'username email')
         .then(appointments => {
             res.status(200).json({
                 status: "SUCCESS",
@@ -462,7 +462,7 @@ router.get('/appointments/upcoming', verifyToken, async (req, res) => {
 router.get('/upcomingAppointments', verifyToken, async (req, res) => {
     const currentDate = new Date();
     // Find all appointments where the date is greater than or equal to the current date
-    await Appointment.find({ date: { $gte: currentDate }, createdBy: req.userId })
+    await Appointment.find({ date: { $gte: currentDate }, createdBy: req.userId }).sort({ createdAt: 'desc' })
         .then(appointments => {
             res.status(200).json({
                 status: "SUCCESS",
@@ -477,7 +477,7 @@ router.get('/upcomingAppointments', verifyToken, async (req, res) => {
 
 
 //api to get all users
-router.get('/getAllUsers', verifyToken, async (req, res) => {
+router.get('/getAllUsers', verifyAdminToken, async (req, res) => {
     try {
         const users = await User.find();
         return res.status(200).json({
