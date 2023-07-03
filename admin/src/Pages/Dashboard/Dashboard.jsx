@@ -21,9 +21,22 @@ function Dashboard() {
         })
     }
 
+    const getAllAppointments = () => {
+        axios.get(url + '/appointments/upcoming', {
+            headers: {
+                Authorization: "Bearer " + token
+            }
+        }).then((res) => {
+            console.log(res?.data);
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
     useEffect(() => {
         if (token) {
             getAllUsers();
+            getAllAppointments();
         }
     }, [])
     return (
