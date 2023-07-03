@@ -89,6 +89,9 @@ const TableList = () => {
             setSelectedDate(0);
             setSelectedHospital("");
             setSelectedTime(0)
+            setTimeout(() => {
+                navigate('/progress')
+            }, 300);
         }).catch((err) => {
             console.log(err);
             toast.error(err?.response.data?.message);
