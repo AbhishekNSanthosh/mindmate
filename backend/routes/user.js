@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const Questionnaire = require('../Models/Question');
 const Result = require('../Models/Result');
 const Appointment = require('../Models/Appointments');
+const StateResources = require('../Models/Resources');
 
 
 // const verifyToken = async (req, res, next) => {
@@ -395,4 +396,96 @@ router.get('/getAllUsers', verifyToken, async (req, res) => {
     }
 })
 
+
+//create resources
+router.post('/addResources', verifyToken, async (req, res) => {
+    const { resourceTitle, symptoms, seeDoctor, treatMent } = req.body;
+    try {
+        const resource = await StateResources.findOne({ resourceTitle });
+        if (resource) {
+            return res.status(500).json({
+                status: "already exists",
+                error: error
+            })
+        }
+
+        if (resourceTitle === "" || !resourceTitle) {
+            return res.status(500).json({
+                status: "already exists",
+                error: error
+            })
+        }
+
+        const resources = await new StateResources({
+            resourceTitle, symptoms, seeDoctor, treatMent
+        })
+
+        resources.save();
+
+        return res.status(200).json({
+            status: "SUCCESS",
+            message: "Resources saved",
+            accessToken: req.accessToken
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            status: "FAILURE",
+            error: error
+        })
+    }
+})
+
+//get all resources
+router.get('/getResources', verifyToken, async (req, res) => {
+    try {
+        const resources = await StateResources.find();
+        return res.status(200).json({
+            status: "SUCCESS",
+            data: resources,
+            accessToken: req.accessToken
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            status: "FAILURE",
+            error: error
+        })
+    }
+});
+
+//edit Resources
+router.put('/editResources/:id', verifyToken, async (req, res) => {
+    const { id } = req.params
+    // const {resourceTitle,symptoms,seeDoctor,treatMent} = 
+    const updatedData = req.body
+    try {
+        const resource = await StateResources.findOne({ _id: id });
+        console.log(resource);
+
+        if (!resource) {
+            return res.status(500).json({
+                status: "FAILURE",
+            })
+        }
+
+        resource.resourceTitle = updatedData?.resourceTitle;
+        resource.seeDoctor = updatedData?.seeDoctor
+        resource.treatMent = updatedData?.treatMent
+        resource.symptoms = updatedData?.symptoms
+
+        const updatedResource = await resource.save();
+        return res.status(200).json({
+            status: "SUCCESS",
+            data: updatedResource,
+            accessToken: req.accessToken
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            status: "FAILURE",
+            error: error
+        })
+    }
+})
 module.exports = router

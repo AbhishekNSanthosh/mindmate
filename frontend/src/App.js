@@ -14,6 +14,7 @@ import DatatablePage from "./Pages/ClinicPage/ClinicPage";
 import TableList from "./Pages/ClinicPage/ClinicPage";
 import { toast } from "react-hot-toast";
 import Progress from "./Pages/Progress/Progress";
+import Resources from "./Pages/Resources/Resources";
 
 
 
@@ -70,9 +71,14 @@ function App() {
     {
       path: "book",
       element: <TableList token={token} user={user} />
-    }, {
+    },
+    {
       path: "progress",
       element: <Progress token={token} user={user} />
+    },
+    {
+      path: "resources",
+      element: <Resources token={token} user={user} />
     },
   ])} />;
 }
