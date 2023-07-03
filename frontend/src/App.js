@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import DatatablePage from "./Pages/ClinicPage/ClinicPage";
 import TableList from "./Pages/ClinicPage/ClinicPage";
 import { toast } from "react-hot-toast";
+import Progress from "./Pages/Progress/Progress";
 
 
 
@@ -35,7 +36,8 @@ function App() {
       console.log(err)
       if (err?.response?.data?.statusCode === 401) {
         localStorage.clear();
-        toast.error('Session Expired!')
+        toast.error('Session Expired!');
+        window.location.reload();
       }
     })
   }
@@ -68,6 +70,9 @@ function App() {
     {
       path: "book",
       element: <TableList token={token} user={user} />
+    }, {
+      path: "progress",
+      element: <Progress token={token} user={user} />
     },
   ])} />;
 }

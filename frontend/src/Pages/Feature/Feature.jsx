@@ -74,7 +74,7 @@ function Feature() {
                                 <span className="item-d">Track your mental health journey and witness your progress over time. Gain valuable insights into your personal growth and celebrate milestones along the way.</span>
                             </div>
                             <div className="feature-item-box-row-arrow">
-                                <NavLink to='/analysis'>
+                                <NavLink to='/progress'>
                                     <span className="material-symbols-outlined">
                                         double_arrow
                                     </span>
