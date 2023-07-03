@@ -461,6 +461,7 @@ router.post('/bookAppointment', verifyToken, async (req, res) => {
 
 router.post('/AdminBookAppointment', verifyAdminToken, async (req, res) => {
     const { userId, username, date, time, hospitalname } = req.body;
+    console.log(req.body)
     try {
         const existingAppointment = await Appointment.findOne({ date, time });
         if (existingAppointment) {
