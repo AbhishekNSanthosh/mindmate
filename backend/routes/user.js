@@ -440,6 +440,40 @@ router.post('/bookAppointment', verifyToken, async (req, res) => {
     }
 })
 
+router.post('/AdminBookAppointment', verifyAdminToken, async (req, res) => {
+    const {userId,username ,date, time, hospitalname } = req.body;
+    try {
+        const existingAppointment = await Appointment.findOne({ date, time });
+        if (existingAppointment) {
+            return res.status(403).json({
+                status: 'FAILURE',
+                message: "Appointment already taken by someone!"
+            })
+        }
+
+        const newAppointment = new Appointment({ username: username, date, time, hospitalname, createdBy: userId });
+
+        newAppointment.save()
+            .then(savedAppointment => {
+                return res.status(200).json({
+                    accessToken: req.accessToken,
+                    message: 'Appointment booked successfully',
+                    appointment: savedAppointment
+                });
+            })
+            .catch(error => {
+                return res.status(500).json({
+                    error: `Failed to book appointment\n${error}`
+                });
+            });
+    } catch (error) {
+        return res.status(500).json({
+            status: "FAILURE",
+            error: error
+        })
+    }
+})
+
 
 //get all apointment
 router.get('/appointments/upcoming', verifyAdminToken, async (req, res) => {
