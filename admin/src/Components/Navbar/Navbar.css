@@ -1,0 +1,40 @@
+.navbar {
+    padding: 50px 0px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.top{
+    display: flex;
+    align-self: flex-start;
+    height: 80px;
+    width: 100%;
+    border-radius: 10px;
+    display: flex;
+    margin-bottom: 40px;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar_item_row{
+  height: 80px;
+  width: 100%;
+  background-color: rgb(230, 230, 230);
+  border-radius: 10px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgb(216, 216, 216);
+}
+
+.navbar_item {
+    font-size: 40px;
+    letter-spacing: 1.9px;
+}
+
+.navbar_item_name {
+    font-size: 20px;
+    letter-spacing: 1.9px;
+}
