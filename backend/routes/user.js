@@ -215,6 +215,102 @@ router.post('/login', async (req, res) => {
     }
 })
 
+//verifyAdmin
+const verifyAdminToken = (req, res, next) => {
+    if (!req.headers.authorization) {
+        res.status(403).json({
+            status: "failed",
+            code: 403,
+            message: "Token not found Authentication failed",
+        });
+    }
+    let token = req.headers.authorization.split(" ")[1];
+    if (!token) {
+        return res.status(403).json({
+            status: false,
+            message: "Token not found",
+        });
+    }
+    jwt.verify(token, "home-care-app", async (err, decoded) => {
+        // const { password, __v, ...adminInfo } = adminData._doc
+        if (decoded?.username === "admin") {
+            req.admin = decoded.username;
+            req.accessToken = token;
+            next();
+        } else {
+            return res.status(403).json({
+                code: 403,
+                status: "FAILURE",
+                message: "Authentication token expired!!! Please Login to continue.",
+            });
+        }
+
+        if (err) {
+            res.status(400).json({
+                status: false,
+                message: "Authentication failed",
+                error: err,
+            });
+        }
+    });
+};
+
+
+router.post("/Adminlogin", async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        if (username === "admin" && password === "admin") {
+            const token = jwt.sign({ username }, "home-care-app", {
+                expiresIn: "1h",
+            }); // Set the expiration time to 1 hour
+
+            res.cookie("AccessToken", token, { httpOnly: true, maxAge: 3600000 }); // Set the expiration time to 1 hour
+
+            return res.status(200).json({
+                statusCode: 200,
+                status: "SUCCESS",
+                accessToken: token,
+                message: `Login successful. Welcome ${username?.toUpperCase()} to HOME CARE APPLIANCES`,
+            });
+        } else {
+            return res.status(401).json({ message: "Invalid credentials" });
+        }
+    } catch (error) {
+        return res.status(404).json({
+            statusCode: 404,
+            status: "FAILURE",
+            error: true,
+            message: "The requested resource could not be found.",
+        });
+    }
+});
+
+
+//verifyAdmin
+router.get("/validateAdmin", verifyAdminToken, (req, res) => {
+    console.log(req.admin);
+    if (req.admin !== "admin") {
+        return res.status(401).json({
+            statusCode: 404,
+            status: "FAILURE",
+            error: true,
+            message: "Unauthorized.",
+        });
+    }
+    res.cookie("AccessToken", req.accessToken, {
+        httpOnly: true,
+        maxAge: 3600000,
+    });
+    return res.status(200).json({
+        statusCode: 200,
+        adminId: req.admin,
+        status: "SUCCESS",
+        accessToken: req.accessToken,
+        message: `Login successful. Welcome ${req.admin?.toUpperCase()} to HOME CARE APPLIANCES`,
+    });
+});
+
 
 //get user details
 router.get('/getUserDetails', verifyToken, async (req, res) => {
