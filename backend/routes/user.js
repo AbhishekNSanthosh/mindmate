@@ -308,47 +308,6 @@ router.get('/getPreviousResults', verifyToken, async (req, res) => {
     }
 })
 
-router.post('/appointments', verifyToken, async (req, res) => {
-    const { username, date, time, hospitalname } = req.body;
-
-    // Check if the appointment with the same date and time already exists
-    await Appointment.findOne({ date, time })
-        .then(existingAppointment => {
-            if (existingAppointment) {
-                return res.status(409).json({
-                    status: "FAILURE",
-                    error: 'Appointment already exists for the given date and time'
-                });
-            }
-
-            // Create a new appointment object
-            const newAppointment = new Appointment({ username: req.userId, date, time, hospitalname });
-
-            // Save the new appointment to the database
-            newAppointment.save()
-                .then(savedAppointment => {
-                    // Return success response with the newly created appointment
-                    return res.status(200).json({
-                        accessToken: req.accessToken,
-                        message: 'Appointment booked successfully',
-                        appointment: savedAppointment
-                    });
-                })
-                .catch(error => {
-                    // Handle any save errors
-                    return res.status(500).json({
-                        error: 'Failed to book appointment'
-                    });
-                });
-        })
-        .catch(error => {
-            // Handle any query errors
-            return res.status(500).json({
-                error: 'Failed to check existing appointments'
-            });
-        });
-});
-
 router.post('/bookAppointment', verifyToken, async (req, res) => {
     const { date, time, hospitalname } = req.body;
     try {
@@ -356,7 +315,7 @@ router.post('/bookAppointment', verifyToken, async (req, res) => {
         if (existingAppointment) {
             return res.status(403).json({
                 status: 'FAILURE',
-                message: "Appointment already exists!"
+                message: "Appointment already taken by someone!"
             })
         }
 
