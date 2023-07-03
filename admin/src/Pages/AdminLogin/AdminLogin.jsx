@@ -8,10 +8,10 @@ function AdminLogin() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const url = 'https://dev-mindmate.onrender.com/api/v1/users'
+    const token = localStorage.getItem('adminAccessToken')
 
     const navigate = useNavigate()
 
-    const token = localStorage.getItem('adminAccessToken')
     useEffect(() => {
         if (token) {
             navigate('/')

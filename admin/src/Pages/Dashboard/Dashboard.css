@@ -1,13 +1,47 @@
-.dashboard{
+.dashboard {
     display: flex;
     height: 100vh;
 }
 
-.navbar_wrap{
+.navbar_wrap {
     flex: 3;
     border-right: 1px solid rgb(211, 211, 211);
 }
 
-.dasboard_container{
+.dasboard_container {
     flex: 10;
+    gap: 30px;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 50px;
+}
+
+.username {
+    font-size: 20px;
+}
+
+.dasboar_item_row {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    justify-content: end;
+}
+
+.dashboard_left {
+    flex: 7;
+    width: 100%;
+}
+
+.dashboard_right {
+    flex: 5;
+    width: 100%;
+    background-color: aqua;
+}
+
+.dasboar_item_row_bottom {
+    display: flex;
+}
+
+.logout {
+    cursor: pointer;
 }
