@@ -12,7 +12,7 @@ function Dashboard() {
     const url = 'https://dev-mindmate.onrender.com/api/v1/users'
     const token = localStorage.getItem('adminAccessToken')
     const navigate = useNavigate();
-    const [user, setUsers] = useState([]);
+    const [users, setUsers] = useState([]);
     const [appointments, setAppointments] = useState([])
     const getAllUsers = () => {
         axios.get(url + '/getAllUsers', {
@@ -70,7 +70,7 @@ function Dashboard() {
                 </div>
                 <div className="dasboar_item_row_bottom">
                     <div className="dashboard_left">
-                        <BookAdmin/>
+                        <BookAdmin users={users}/>
                     </div>
                     <div className="dashboard_right">
                         <div className="right_item">

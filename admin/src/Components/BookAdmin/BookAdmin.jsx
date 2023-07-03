@@ -5,7 +5,10 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 
-function BookAdmin() {
+
+function BookAdmin({ users }) {
+    const [userId, setUserId] = useState("");
+    const [username, setUsername] = useState("");
     const [tableData, setTableData] = useState([
         { id: 1, name: 'Aster Medicity' },
         { id: 2, name: 'Baby Memorial Hospital', },
@@ -48,7 +51,7 @@ function BookAdmin() {
     const handleTimeChange = (e) => {
         setSelectedTime(e.target.value);
     };
-
+    console.log('user', userId, username)
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -113,10 +116,12 @@ function BookAdmin() {
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search by Hospital name..."
                     />
-                    <select id="mySelector"                         className='search-input'>
-                        <option value="option1">Option 1</option>
-                        <option value="option2">Option 2</option>
-                        <option value="option3">Option 3</option>
+                    <select id="mySelector" onChange={(e) => {
+                        setUserId(e.target.value);
+                    }} className='search-input'>
+                        {users && users.map((user, index) => (
+                            <option key={index} value={user?.username}>{user?.username}</option>
+                        ))}
                     </select>
 
                 </div>
