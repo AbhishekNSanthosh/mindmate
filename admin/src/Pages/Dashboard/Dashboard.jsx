@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Dashboard.css';
 import toast, { Toaster } from 'react-hot-toast';
 import Navbar from '../../Components/Navbar/Navbar';
@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 function Dashboard() {
     const url = 'https://dev-mindmate.onrender.com/api/v1/users'
     const token = localStorage.getItem('adminAccessToken')
-const [user,setUsers] = 
+    const [user, setUsers] = useState([])
     const getAllUsers = () => {
         axios.get(url + '/getAllUsers', {
             headers: {
