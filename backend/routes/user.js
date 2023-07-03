@@ -113,7 +113,7 @@ router.post('/signup', async (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
     const email = req.body.email;
-
+    console.log("signup", req.body)
     if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
         return res.status(400).json({
             status: 'FAILURE',
@@ -170,6 +170,7 @@ router.post('/signup', async (req, res, next) => {
 
 //API TO LOGIN USER
 router.post('/login', async (req, res) => {
+    console.log("login", req.body)
     try {
         const username = req.body.username;
         const userpassword = req.body.password;
